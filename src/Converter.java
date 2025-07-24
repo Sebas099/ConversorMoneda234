@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public final class Converter {
@@ -7,54 +8,65 @@ public final class Converter {
     private Converter() {}
 
     public static void convertCurrency() throws IOException, InterruptedException {
-        String option = null;
+        System.out.println("Bienvenido al conversor de monedas. Presione Enter para continuar.");
         while (true) { 
             menu();
-            option = optionChoose();
-            if (option.equals("7")) {
-                keyboard.close();
-                break;
-            }
-            else if(option.equals("0")) {
-                System.out.println("Opcion incorrecta. Enter para continuar.");
-                keyboard.nextLine();
-            }
-            else {
-                Request.makeRequest(option, amount());
-                System.out.println("Enter para continuar.");
-                keyboard.nextLine();
-            }
+            Request.makeRequest(optionChoose(), amount());
+            System.out.println("Presione Enter para continuar.");       
         }
     }
 
     private static void menu() {
-        System.out.println("****************************************************");
-        System.out.println("Seleccione opción:\n");
-        System.out.println("1) Dólar(USD) --> Peso argentino(ARS)");
-        System.out.println("2) Peso Argentino(ARS) --> Dólar(USD)");
-        System.out.println("3) Dólar(USD) --> Real brasileño(BRL)");
-        System.out.println("4) Real brasileño(BRL) --> Dólar(USD)");
-        System.out.println("5) Dólar(USD) --> Peso colombiano(COP)");
-        System.out.println("6) Peso colombiano(COP) --> Dólar(USD)");
-        System.out.println("7) Salir");
-        System.out.println("****************************************************");
+        keyboard.nextLine();
+        String menu = """
+            ****************************************************
+            Elija la divisa a convertir.
+            1) Dólar(USD) --> Peso argentino(ARS)
+            2) Peso Argentino(ARS) --> Dólar(USD)
+            3) Dólar(USD) --> Real brasileño(BRL)
+            4) Real brasileño(BRL) --> Dólar(USD)
+            5) Dólar(USD) --> Peso colombiano(COP)
+            6) Peso colombiano(COP) --> Dólar(USD)
+            7) Salir
+            ****************************************************""";
+        System.out.println(menu);        
     }
 
-    private static String optionChoose() {
-        String input = keyboard.nextLine();
-
-        if (input.equals("7")) return input;
-        for (String s : availableOptions) {
-            if (input.equals(s)){
-                return Request.resource(Integer.parseInt(input) - 1);
+    private static String optionChoose() {     
+        while(true) {
+            String input = keyboard.nextLine();
+            if (input.equals("7")) {
+                keyboard.close();
+                System.exit(0);
             }
-        }          
-        return "0";
+            else {
+                for (String s : availableOptions) {
+                    if (input.equals(s)) {
+                        return Request.resource(Integer.parseInt(input) - 1);
+                    }
+                }
+                System.out.println("Opcion incorrecta. Intente nuevamente.");
+            }
+        }
     } 
     
-    private static String amount() {
-        System.out.println("Ingrese cantidad a convertir.");;
-        String input = keyboard.nextLine();
-        return input;
+    private static String amount(){
+        System.out.println("Ingrese cantidad a convertir.");
+        int input;
+        while (true) {
+            try {
+                input = keyboard.nextInt();
+                keyboard.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada invalida. Intente nuevamente.");
+                keyboard.nextLine();
+            }
+        }   
+        return String.valueOf(input);
+    }
+
+    public static void closeScanner() {
+        keyboard.close();
     }
 }
