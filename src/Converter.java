@@ -7,11 +7,11 @@ public final class Converter {
     private static String[] availableOptions = {"1", "2", "3", "4", "5", "6"};
     private Converter() {}
 
-    public static void convertCurrency() throws IOException, InterruptedException {
+    public static void convertCurrency(String key) throws IOException, InterruptedException {
         System.out.println("Bienvenido al conversor de monedas. Presione Enter para continuar.");
         while (true) { 
             menu();
-            Request.makeRequest(optionChoose(), amount());
+            Request.makeRequest(optionChoose(), amount(), key);
             System.out.println("Presione Enter para continuar.");       
         }
     }

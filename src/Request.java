@@ -6,20 +6,17 @@ import java.net.http.HttpResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.google.gson.annotations.SerializedName;
-
 
 
 public final class Request {
     public static String adress = "https://v6.exchangerate-api.com/v6/";
-    private static final String key = "API_KEY";
     private static String[] currency = {"USD/ARS/", "ARS/USD/", "USD/BRL/", "BRL/USD/", "USD/COP/", "COP/USD/"};
     private static String convertAmount;
     
     private Request(){}
 
-    public static void makeRequest(String endpoint, String amount) throws IOException, InterruptedException {
+    public static void makeRequest(String endpoint, String amount, String key) throws IOException, InterruptedException {
         convertAmount = amount;
         String url = adress + key + endpoint + amount;
         HttpClient client = HttpClient.newHttpClient();
@@ -28,7 +25,11 @@ public final class Request {
                 .build();
         HttpResponse<String> response = client
                 .send(request, HttpResponse.BodyHandlers.ofString());
-    
+        
+        if (response.statusCode() == 404){
+            System.out.println("Error en la consulta. Corrobore su API_KEY");
+            System.exit(1);
+        }
         System.out.println(jsonConverter(response.body()));
     }
 
@@ -36,9 +37,13 @@ public final class Request {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
-        return gson.fromJson(response, responseObject.class); 
+
+        return gson.fromJson(response, responseObject.class);
     }
 
+    public static String resource(int i) {
+        return "/pair/" + currency[i];
+    }
     private class  responseObject {
         @SerializedName("conversion_result")
         private String conversionResult;
@@ -46,14 +51,17 @@ public final class Request {
         private String currencyOne;
         @SerializedName("target_code")
         private String currencyTwo;
+        @SerializedName("result")
+        private String result;
 
         @Override
         public String toString() {
+            if (result.equals("error"))
+            {
+                System.out.println("Error en la consulta. Corrobore su API_KEY");
+                System.exit(1);
+            }
             return convertAmount + " " + currencyOne + " equivalen a " + conversionResult + " " + currencyTwo;
         }
-    }
-
-    public static String resource(int i) {
-        return "/pair/" + currency[i];
     }
 }

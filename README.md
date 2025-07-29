@@ -1,18 +1,35 @@
-## Getting Started
+## Conversor de monedas
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Este proyecto desarrollado en Java permite consultar la tasa de cambio de una [moneda](#lista-de-monedas) a dólares estadounidenses (USD) y su operación inversa; moneda a dólar.
+Se utiliza la API de [ExchangeRate-API](https://www.exchangerate-api.com/). 
 
-## Folder Structure
+Proyecto realizado para el desafío del curso backend de la plataforma Alura.
 
-The workspace contains two folders by default, where:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Lista de monedas disponibles
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+* Peso argentino (ARS)
+* Real brasileño (BRL)
+* Peso colombiano (COP)
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Requisitos y dependencias
+* [JDK 17 o superior.](https://www.oracle.com/ae/java/technologies/downloads/#jdk24-windows)
+* Conexión a internet.
+* [ExchangeRate-API API Key](https://www.exchangerate-api.com/) válida (Requiere registro).
 
-## Dependency Management
+**Dependencias:**
+* Librería externa [Gson](https://mvnrepository.com/artifact/com.google.code.gson/gson) formato .jar.
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Cómo ejecutar
+**Windows:**
+* Descargar el archivo .jar del paquete Gson y colocarlo en la carpeta "src".
+* Abrir terminal de comandos ejecutando el archivo "opencosole.bat".
+* Compilar el proyecto utilizando el siguiente comando en la terminal: 
+```javac -cp "*.jar" *.java```
+Ejecutar el programa utilizando el siguiente comando en la terminal, reemplazando "API_KEY" por nuestra [ExchangeRate-API API Key](https://app.exchangerate-api.com/keys):
+```java -cp "\;*.jar\" ConversorMoneda API_KEY```
+
+
+## Notas
+Si ya se a compilado anteriormente el proyecto, se puede saltear este paso.
+Tener en cuenta que ExchangeRate-API en su plan gratuito permite un máximo mensual de 1500 consultas.
