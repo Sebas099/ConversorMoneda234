@@ -24,12 +24,16 @@ Proyecto realizado para el desafío del curso backend de la plataforma Alura.
 **Windows:**
 * Descargar el archivo .jar del paquete Gson y colocarlo en la carpeta "src".
 * Abrir terminal de comandos ejecutando el archivo "opencosole.bat".
-* Compilar el proyecto utilizando el siguiente comando en la terminal: 
-```javac -cp "*.jar" *.java```
-Ejecutar el programa utilizando el siguiente comando en la terminal, reemplazando "API_KEY" por nuestra [ExchangeRate-API API Key](https://app.exchangerate-api.com/keys):
-```java -cp "\;*.jar\" ConversorMoneda API_KEY```
+* Compilar el proyecto utilizando el siguiente comando en la terminal:
 
+```bash
+javac -cp "*.jar" *.java
+```
+* Ejecutar el programa utilizando el siguiente comando en la terminal, reemplazando "API_KEY" por nuestra [ExchangeRate-API API Key](https://app.exchangerate-api.com/keys):
+```bash
+java -cp "\;*.jar\" ConversorMoneda API_KEY
+```
 
 ## Notas
-Si ya se a compilado anteriormente el proyecto, se puede saltear este paso.
+Si ya se a compilado anteriormente el proyecto, se puede omitir este paso.
 Tener en cuenta que ExchangeRate-API en su plan gratuito permite un máximo mensual de 1500 consultas.
